@@ -18,5 +18,5 @@ Requirements
 Instruction
 --------------
 - edit hostnames found by `grep -i host- . -R`, considering host-1 is lb and other two - app nodes
-- then bin/run.sh
+- then cd bin; ./run.sh
 - no errors - success, otherwise check errors
