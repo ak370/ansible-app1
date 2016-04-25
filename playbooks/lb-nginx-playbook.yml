@@ -1,0 +1,27 @@
+---
+- hosts: loadbalancers
+  vars_files:
+    - lb-nginx-playbook-vars.yaml
+
+  roles:
+  - geerlingguy.nginx
+
+  tasks:
+  - name: ensure name=python-httplib2 is at the latest version
+    apt: name=python-httplib2 state=latest
+
+  - name: Restart nginx
+    service: name=nginx state=restarted
+
+  - action: uri url=http://localhost return_content=yes
+    register: webpage
+
+  - fail: msg='did not get expected response from host-3'
+    when: "'host-3' not in webpage.content"
+
+  - action: uri url=http://localhost return_content=yes
+    register: webpage2
+
+  - fail: msg='did not get expected response from host-2'
+    when: "'host-2' not in webpage2.content"
+

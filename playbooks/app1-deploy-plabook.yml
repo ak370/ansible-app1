@@ -1,0 +1,24 @@
+---
+- hosts: app_servers
+
+  tasks:
+  - name: Ensure golang is at the latest version
+    apt: name=golang state=latest
+
+  - name: Create user app1
+    user: name=app1
+
+  - name: Creates app1 directory
+    file: path=/opt/app1/bin state=directory owner=app1 group=www-data mode=0755 recurse=yes
+
+  - name: Deploy app1.go
+    copy: src=../files/app1.go dest=/opt/app1/bin owner=app1  mode=755
+
+  - name: Deploy app1 init script
+    copy: src=../files/app1-init dest=/etc/init.d/app1 mode=755
+
+  - name: Enable app1 service
+    service: name=app1 enabled=yes
+
+  - name: Restart app1
+    service: name=app1 state=restarted

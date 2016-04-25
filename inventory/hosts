@@ -1,0 +1,7 @@
+[loadbalancers]
+host-1
+
+
+[app_servers]
+host-2
+host-3

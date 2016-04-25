@@ -1,0 +1,17 @@
+---
+nginx_upstreams: 
+ - name: app1
+   servers: {
+     "host-2:8484",
+     "host-3:8484"
+   }
+
+nginx_vhosts:
+ - listen: "80" 
+   server_name: "app1"
+   extra_parameters: |
+      location / {
+        proxy_pass http://app1;
+      }
+    
+nginx_remove_default_vhost: true
